@@ -34,6 +34,7 @@ jobs:
           chmod 600 ./private_key
           which scp || echo "scp command not found"
           which ssh || echo "ssh command not found"
-          scp -o StrictHostKeyChecking=no -i ./private_key -r ./result github@ovh.mahn.ke:/tmp/nixos-config -P $SSH_PORT
-          ssh -o StrictHostKeyChecking=no -i ./private_key github@ovh.mahn.ke -p $SSH_PORT "sudo nixos-rebuild switch -I nixos-config=/tmp/nixos-config"
+          ssh -o StrictHostKeyChecking=no -i ./private_key github@ovh.mahn.ke -p $SSH_PORT "mkdir -p /tmp/nixos-config-$GITHUB_RUN_ID" || echo "SSH mkdir command failed"
+          scp -o StrictHostKeyChecking=no -i ./private_key -r ./result github@ovh.mahn.ke:/tmp/nixos-config-$GITHUB_RUN_ID -P $SSH_PORT || echo "SCP failed"
+          ssh -o StrictHostKeyChecking=no -i ./private_key github@ovh.mahn.ke -p $SSH_PORT "sudo nixos-rebuild switch -I nixos-config=/tmp/nixos-config-$GITHUB_RUN_ID" || echo "SSH command failed"
   
