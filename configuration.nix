@@ -39,11 +39,17 @@
   users.users.github = {
     isNormalUser = true;
     openssh.authorizedKeys.keys = ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPp09oxMtjTkRUMzfegnHUMoVLMSsjlSa4b8ZSva1s9J agent.github@vincent.mahn.ke"];
+    extraGroups = [ "docker" ];
   };
   services.openssh.enable = true;
   services.openssh.ports = [ 8474 ];
 
   environment.systemPackages = with pkgs; [ unzip zip ];
+
+  virtualisation.docker.rootless = {
+    enable = true;
+    setSocketVariable = true;
+  };
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
