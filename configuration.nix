@@ -39,7 +39,7 @@
   users.users.github = {
     isNormalUser = true;
     openssh.authorizedKeys.keys = ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPp09oxMtjTkRUMzfegnHUMoVLMSsjlSa4b8ZSva1s9J agent.github@vincent.mahn.ke"];
-    extraGroups = [ "docker" ];
+    extraGroups = [ "wheel" "docker" ];
   };
   services.openssh.enable = true;
   services.openssh.ports = [ 8474 ];
