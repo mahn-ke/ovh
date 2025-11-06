@@ -27,6 +27,13 @@
   ];
 
   time.timeZone = "Europe/Berlin";
+  
+  security.sudo.extraRules = [
+    {
+      groups = [ "wheel" ];
+      commands = [ { command = "ALL"; options = [ "NOPASSWD" ]; } ];
+    }
+  ];
 
   users.users.root.openssh.authorizedKeys.keys = ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIETj6tLBKN9rK2RLDAvghueDgGlD2RFfCGOoOWvTz4zM eddsa-key-20250630"];
   users.users.github = {
