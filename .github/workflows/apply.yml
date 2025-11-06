@@ -1,6 +1,7 @@
 name: Apply NixOS Configuration to OVH host
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
