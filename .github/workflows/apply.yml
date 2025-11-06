@@ -27,9 +27,8 @@ jobs:
         env:
           SSH_PORT: ${{ secrets.SSH_PORT }}
           SSH_PRIVATE_KEY_BASE64: ${{ secrets.SSH_PRIVATE_KEY_BASE64 }}
-          SSH_PRIVATE_KEY_PASSWORD: ${{ secrets.SSH_PRIVATE_KEY_PASSWORD }}
         run: |
-          echo "$SSH_PRIVATE_KEY_BASE64" | base64 --decode > private_key
-          chmod 600 private_key
-          sshpass -p "$SSH_PRIVATE_KEY_PASSWORD" scp -o StrictHostKeyChecking=no -i private_key -r ./result github@ovh.mahn.ke:/tmp/nixos-config -P $SSH_PORT
-          sshpass -p "$SSH_PRIVATE_KEY_PASSWORD" ssh -o StrictHostKeyChecking=no -i private_key github@ovh.mahn.ke "sudo nixos-rebuild switch -I nixos-config=/tmp/nixos-config"
+          echo "$SSH_PRIVATE_KEY_BASE64" | base64 --decode > ./private_key
+          chmod 600 ./private_key
+          scp -o StrictHostKeyChecking=no -i ./private_key -r ./result github@ovh.mahn.ke:/tmp/nixos-config -P $SSH_PORT
+          ssh -o StrictHostKeyChecking=no -i ./private_key github@ovh.mahn.ke -P $SSH_PORT "sudo nixos-rebuild switch -I nixos-config=/tmp/nixos-config"
