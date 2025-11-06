@@ -1,0 +1,32 @@
+name: Apply NixOS Configuration to OVH host
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Nix
+        run: |
+          curl -L https://nixos.org/nix/install | sh
+          . /home/runner/.nix-profile/etc/profile.d/nix.sh
+
+      - name: Build NixOS configuration
+        run: nix-build '<nixpkgs/nixos>' -A config.system.build.toplevel
+
+      - name: Apply configuration on remote server
+        env:
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_PRIVATE_KEY_PASSWORD: ${{ secrets.SSH_PRIVATE_KEY_PASSWORD }}
+        run: |
+            echo "$SSH_PRIVATE_KEY" > private_key
+            chmod 600 private_key
+            sshpass -p "$SSH_PRIVATE_KEY_PASSWORD" scp -o StrictHostKeyChecking=no -i private_key -r ./result github@ovh.mahn.ke:/tmp/nixos-config -P $SSH_PORT
+            sshpass -p "$SSH_PRIVATE_KEY_PASSWORD" ssh -o StrictHostKeyChecking=no -i private_key github@ovh.mahn.ke "sudo nixos-rebuild switch -I nixos-config=/tmp/nixos-config"
