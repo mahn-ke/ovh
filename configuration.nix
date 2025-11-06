@@ -38,7 +38,7 @@
   users.users.root.openssh.authorizedKeys.keys = ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIETj6tLBKN9rK2RLDAvghueDgGlD2RFfCGOoOWvTz4zM eddsa-key-20250630"];
   users.users.github = {
     isNormalUser = true;
-    openssh.authorizedKeys.keys = ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPp09oxMtjTkRUMzfegnHUMoVLMSsjlSa4b8ZSva1s9J agent.github@vincent.mahn.ke"];
+    openssh.authorizedKeys.keys = ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5ABAAIPp09oxMtjTkRUMzfegnHUMoVLMSsjlSa4b8ZSva1s9J agent.github@vincent.mahn.ke"];
   };
   services.openssh.enable = true;
   services.openssh.ports = [ 8474 ];
