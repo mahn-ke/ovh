@@ -23,7 +23,7 @@ jobs:
         run: |
           echo "$SSH_PRIVATE_KEY_BASE64" | base64 --decode > ./private_key
           mkdir -p ./secrets
-          echo "$RUNNER_REGISTRATION_TOKEN" >> ./secrets/runner_token
+          echo "$RUNNER_REGISTRATION_TOKEN" >> /secrets/runner_token
           ls -l ./private_key
           chmod 600 ./private_key
           zip -r result.zip ./repo -x ".*"
