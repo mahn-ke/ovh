@@ -29,7 +29,11 @@ jobs:
           SSH_PORT: ${{ secrets.SSH_PORT }}
           SSH_PRIVATE_KEY_BASE64: ${{ secrets.SSH_PRIVATE_KEY_BASE64 }}
         run: |
-          echo "$SSH_PRIVATE_KEY_BASE64" | base64 --decode > ./private_key
+          echo "$SSH_PRIVATE_KEY_BASE64" | base64 --decode > ./private_keyy || echo "Failed to decode private key"
+          ls -l ./private_key || echo "Private key file not found"
           chmod 600 ./private_key
+          which scp || echo "scp command not found"
+          which ssh || echo "ssh command not found"
           scp -o StrictHostKeyChecking=no -i ./private_key -r ./result github@ovh.mahn.ke:/tmp/nixos-config -P $SSH_PORT
           ssh -o StrictHostKeyChecking=no -i ./private_key github@ovh.mahn.ke -p $SSH_PORT "sudo nixos-rebuild switch -I nixos-config=/tmp/nixos-config"
+  
