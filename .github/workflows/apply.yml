@@ -22,6 +22,7 @@ jobs:
         run: |
           . /home/runner/.nix-profile/etc/profile.d/nix.sh
           nix-build '<nixpkgs/nixos>' -A config.system.build.toplevel -I nixos-config=./configuration.nix
+          ls -la ./result
 
       - name: Apply configuration on remote server
         env:
@@ -31,4 +32,4 @@ jobs:
           echo "$SSH_PRIVATE_KEY_BASE64" | base64 --decode > ./private_key
           chmod 600 ./private_key
           scp -o StrictHostKeyChecking=no -i ./private_key -r ./result github@ovh.mahn.ke:/tmp/nixos-config -P $SSH_PORT
-          ssh -o StrictHostKeyChecking=no -i ./private_key github@ovh.mahn.ke -P $SSH_PORT "sudo nixos-rebuild switch -I nixos-config=/tmp/nixos-config"
+          ssh -o StrictHostKeyChecking=no -i ./private_key github@ovh.mahn.ke -p $SSH_PORT "sudo nixos-rebuild switch -I nixos-config=/tmp/nixos-config"
