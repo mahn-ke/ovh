@@ -48,7 +48,7 @@
     ovh = {
       enable = true;
       name = "ovh";
-      tokenFile = "/secrets/runner_token";
+      tokenFile = "/run/secrets/runner_token";
       url = "https://github.com/mahn-ke";
     };
   };

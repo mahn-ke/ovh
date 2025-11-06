@@ -27,4 +27,4 @@ jobs:
           zip -r result.zip ./repo -x ".*"
           ssh -o StrictHostKeyChecking=no -i ./private_key github@ovh.mahn.ke -p $SSH_PORT "mkdir -p /tmp/nixos-config-$GITHUB_RUN_ID"
           scp -P $SSH_PORT -o StrictHostKeyChecking=no -i ./private_key result.zip github@ovh.mahn.ke:/tmp/nixos-config-$GITHUB_RUN_ID/
-          ssh -o StrictHostKeyChecking=no -i ./private_key github@ovh.mahn.ke -p $SSH_PORT "unzip -o /tmp/nixos-config-$GITHUB_RUN_ID/result.zip -d /tmp/nixos-config-$GITHUB_RUN_ID && mkdir -p /secrets && echo "$RUNNER_REGISTRATION_TOKEN" >> /secrets/runner_token && sudo nixos-rebuild switch -I nixos-config=/tmp/nixos-config-$GITHUB_RUN_ID/repo/configuration.nix"
+          ssh -o StrictHostKeyChecking=no -i ./private_key github@ovh.mahn.ke -p $SSH_PORT "unzip -o /tmp/nixos-config-$GITHUB_RUN_ID/result.zip -d /tmp/nixos-config-$GITHUB_RUN_ID && mkdir -p /run/secrets && echo "$RUNNER_REGISTRATION_TOKEN" >> /run/secrets/runner_token && sudo nixos-rebuild switch -I nixos-config=/tmp/nixos-config-$GITHUB_RUN_ID/repo/configuration.nix"
