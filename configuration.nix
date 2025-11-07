@@ -44,15 +44,6 @@
   services.openssh.enable = true;
   services.openssh.ports = [ 8474 ];
 
-  services.github-runners = {
-    ovh = {
-      enable = true;
-      name = "ovh";
-      tokenFile = "/run/secrets/runner_token";
-      url = "https://github.com/mahn-ke";
-    };
-  };
-
   environment.systemPackages = with pkgs; [ unzip zip fahclient ];
 
   virtualisation.docker.rootless = {
