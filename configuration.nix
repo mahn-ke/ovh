@@ -53,7 +53,7 @@
     };
   };
 
-  environment.systemPackages = with pkgs; [ unzip zip ];
+  environment.systemPackages = with pkgs; [ unzip zip fahclient ];
 
   virtualisation.docker.rootless = {
     enable = true;
